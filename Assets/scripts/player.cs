@@ -126,7 +126,7 @@ public class player : MonoBehaviour
         else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyAttack")    //적의 공격 및 적과의 충돌
         {
 
-            if (isHit)                             //점수 버그 방지(당장은 필요 x, 총알이 2개 나가게 되면 필요)
+            if (isHit)                             //중복 피격으로 인한 점수 두배 버그 방지(당장은 필요 x, 총알이 2개 나가게 되면 필요)
                 return;
 
             isHit = true;
