@@ -4,30 +4,44 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    public float power;
-    public float speed;
-    public float maxShotDelay;
+    public float power;             //공격 종류 
+    public float speed;             //속도
+    public float maxShotDelay;          // 공격속도
     public float curShotDelay;
-    public bool isTouchtop;
-    public bool isTouchbottom;
-    public bool isTouchright;
-    public bool isTouchleft;
+    public bool isTouchtop;              //벽
+    public bool isTouchbottom;            //벽
+    public bool isTouchright;             //벽
+    public bool isTouchleft;               //벽
 
+    public int life;
+    public int score;
     
-    public GameObject playerattack1;
-    public GameObject playerattack2;
-    public GameObject playerattack3;
+    
+
+    public GameObject playerattack1;    //공격1
+    public GameObject playerattack2;     //공격2
+    public GameObject playerattack3;       //공격3
+    Animator anim;
+
+
+    public GameManager manager;
+
+
+    public bool isHit;
+    void Awake()
+    {
+        anim = GetComponent<Animator>();
+        
+    }
     void Update()
     {
         Move();
         Fire();
         Reload();
-
-       
-
+        anim.SetBool("isFire", Input.GetButton("Fire1"));
     }
 
-    private void Move()
+    private void Move()    //이동 로직
     {
         float h = Input.GetAxisRaw("Horizontal");
         if ((isTouchright && h == 1) || (isTouchleft && h == -1))
@@ -45,7 +59,7 @@ public class player : MonoBehaviour
     }
 
 
-    void Fire()
+    void Fire()          //공격 로직
     {
         if (!Input.GetButton("Fire1"))
             return;
@@ -80,14 +94,16 @@ public class player : MonoBehaviour
         curShotDelay = 0;
     }
 
-    void Reload()
+    void Reload()            //공격 속도
     {
         curShotDelay += Time.deltaTime;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+
+    // 충돌
+    void OnTriggerEnter2D(Collider2D collision)    
     {
-        if(collision.gameObject.tag == "Border")
+        if (collision.gameObject.tag == "Border")
         {
             switch (collision.gameObject.name)
             {
@@ -101,14 +117,36 @@ public class player : MonoBehaviour
                     isTouchright = true;
                     break;
                 case "left":
-                    isTouchleft= true;
+                    isTouchleft = true;
                     break;
 
             }
 
         }
+        else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyAttack")    //적의 공격 및 적과의 충돌
+        {
+
+            if (isHit)                             //점수 버그 방지(당장은 필요 x, 총알이 2개 나가게 되면 필요)
+                return;
+
+            isHit = true;
+            life--;
+            manager.UpdateLifeIcon(life);
+            
+            if(life == 0)
+            {
+                manager.GameOver();
+            }
+            else
+            {
+                manager.RespawnPlayer();
+            }
+            manager.RespawnPlayer();
+            gameObject.SetActive(false);
+            Destroy(collision.gameObject);
+        }
     }
-    void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)  
     {
         if (collision.gameObject.tag == "Border")
         {
