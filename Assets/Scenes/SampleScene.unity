@@ -2228,7 +2228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c49deeece95c64ea775a614f2528ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 1
+  power: 3
   speed: 5
   maxShotDelay: 0.25
   curShotDelay: 0
