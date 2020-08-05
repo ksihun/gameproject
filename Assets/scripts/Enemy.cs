@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
             Rigidbody2D rigid1 = Attack1.GetComponent<Rigidbody2D>();
             Vector3 dirVec = player.transform.position - transform.position;
 
-            rigid1.AddForce(dirVec.normalized * 6, ForceMode2D.Impulse);
+            rigid1.AddForce(dirVec.normalized * 4, ForceMode2D.Impulse);     //슬라임 투사체 속도
 
         }
         else if (EnemyName == "Golem") //골렘 공격
@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
             Rigidbody2D rigid2 = Attack2.GetComponent<Rigidbody2D>();
             Vector3 dirVec = player.transform.position - transform.position;
 
-            rigid2.AddForce(dirVec.normalized * 6, ForceMode2D.Impulse);
+            rigid2.AddForce(dirVec.normalized * 2, ForceMode2D.Impulse);            //골렘 투사체 속도
 
         }
 
