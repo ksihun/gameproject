@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    public float power;             //공격 종류 
+    public int power;             //공격 종류 
+    public int maxpower;             
     public float speed;             //속도
     public float maxShotDelay;          // 공격속도
     public float curShotDelay;
@@ -143,6 +144,20 @@ public class player : MonoBehaviour
             }
             manager.RespawnPlayer();
             gameObject.SetActive(false);
+            Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.tag == "Item") {
+            Item item = collision.gameObject.GetComponent<Item>();
+            switch (item.type) {
+                case "Power":
+                    if (power == maxpower)
+                    
+                        score += 500;
+                    
+                    else
+                        power++;
+                    break;
+            }
             Destroy(collision.gameObject);
         }
     }

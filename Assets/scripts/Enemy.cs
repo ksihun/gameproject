@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject EnemyAttack1;    //적 공격1
     public GameObject EnemyAttack2;     //적 공격2
+    public GameObject powerup;
     public GameObject player;
     SpriteRenderer spriteRenderer;
     Animator anim;
@@ -74,6 +75,9 @@ public class Enemy : MonoBehaviour
 
     void OnHit(int dmg)        //적이 피해를 받았을 때
     {
+
+        
+
         health -= dmg;
         
 
@@ -81,10 +85,24 @@ public class Enemy : MonoBehaviour
         {
             player playerLogic = player.GetComponent<player>();
             playerLogic.score += enemyScore;
-            Destroy(gameObject);
-           
-                
 
+
+            int ran = Random.Range(0, 10);
+            if (ran < 8) 
+            {
+                Debug.Log("Not Item");
+            }
+            else if (ran < 10)
+            {
+                Instantiate(powerup, transform.position, powerup.transform.rotation);
+            }
+
+            
+
+            Destroy(gameObject);
+
+           
+            
             
         }
     }

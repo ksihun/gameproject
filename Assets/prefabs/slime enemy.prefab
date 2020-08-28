@@ -158,6 +158,7 @@ MonoBehaviour:
     type: 3}
   EnemyAttack2: {fileID: 3703105347562294592, guid: 631a6f5248570de40ab9ccf973b9f4b8,
     type: 3}
+  powerup: {fileID: 8652612126803478600, guid: e98cb73c4e0e78e4495a34f012bfdac7, type: 3}
   player: {fileID: 0}
 --- !u!95 &1412010768579242966
 Animator:
