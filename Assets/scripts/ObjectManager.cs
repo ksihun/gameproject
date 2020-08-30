@@ -164,18 +164,56 @@ public class ObjectManager : MonoBehaviour
 
         for (int index = 0; index < targetPool.Length; index++)
         {
-            if (!targetPool[index].activeSelf)
-            {
+            if (!targetPool[index].activeSelf) {
                 targetPool[index].SetActive(true);
                 return targetPool[index];
             }
         }
         return null;
     }
-    
 
 
+    //public GameObject[] GetPool(string type)
+    // {
+    //   switch (type) {          
+    //      case "EnemyB":
+    //           targetPool = enemyB;
+    //       break;
+    //        case "Slimeenemy":
+    //  targetPool = slimeenemy;
+    //         break;
+    //         case "Golemenemy":
+    // targetPool = golemenemy;
+    //          break;
+    //         case "Powerup":
+    // targetPool = powerup;
+    //         break;
+    //          case "Playerattack1":
+    //targetPool = playerattack1;
+    //        break;
+    //          case "Playerattack2":
+    // targetPool = playerattack2;
+    //         break;
+    //        case "Playerattack3":
+    //                 targetPool = playerattack3;
+    //         break;
+    //          case "EnemyAttack1":
+    //  targetPool = EnemyAttack1;
+    //          break;
+    //         case "EnemyAttack2":
+    // targetPool = EnemyAttack2;
+    //         break;
+    //         case "BulletBossA":
+    // targetPool = bulletBossA;
+    //          break;
+    //        case "BulletBossB":
+    //  targetPool = bulletBossB;
+    //          break;
+    //      }
+    //      return targetPool;
+    //}
+    }
 
-}
+
 
 

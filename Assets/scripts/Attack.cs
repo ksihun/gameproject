@@ -17,7 +17,7 @@ public class Attack : MonoBehaviour
     {
         if (collision.gameObject.tag == "BorderAttack")
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
 
         }
     }

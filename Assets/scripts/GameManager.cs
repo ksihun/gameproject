@@ -34,29 +34,35 @@ public class GameManager : MonoBehaviour
 
     void ReadSpawnFile()
     {
+
+        //#1. 변수 초기화
         spawnList.Clear();
         spawnIndex = 0;
         spawnEnd = false;
 
-        TextAsset textFile = Resources.Load("Stage 1") as TextAsset;
+        //#2. 리스폰 파일 읽기
+        TextAsset textFile = Resources.Load("Stage 0") as TextAsset;
         StringReader stringReader = new StringReader(textFile.text);
 
         while (stringReader != null)
         {
             string line = stringReader.ReadLine();
+            Debug.Log(line);
          
             if (line == null)
                 break;
 
-
+            //# 리스폰 데이터 생성
             Spawn spawnData = new Spawn();
             spawnData.delay = float.Parse(line.Split(',')[0]);
             spawnData.type = line.Split(',')[1];
             spawnData.point = int.Parse(line.Split(',')[2]);
             spawnList.Add(spawnData);
         }
-
+        //# 텍스트 닫기
         stringReader.Close();
+
+        //#. 스폰 딜레이
         nextSpawnDelay = spawnList[0].delay;
     }
     void Update()
