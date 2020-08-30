@@ -19,21 +19,72 @@ public class Enemy : MonoBehaviour
     public GameObject EnemyAttack2;     //적 공격2
     public GameObject powerup;
     public GameObject player;
+    public ObjectManager objectManager;
+
     SpriteRenderer spriteRenderer;
     Animator anim;
-    
 
+    public int patternIndex;
+    public int curPatternCount;
+    public int[] maxPatternCount;
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
+        if (EnemyName == "B")
         
             anim = GetComponent<Animator>();
 
         }
+    void OnEnable()
+    {
+        switch (EnemyName)
+        {
+            case "B":
+                health = 3000;
+                Invoke("Stop", 2);
+                break;
+            case "Slime":
+                health = 20;
+                break;
+            case "Golem":
+                health = 45;
+                break;
+      
+        }
+    }
+    void Stop()
+    {
+        if (gameObject.activeSelf)
+            return;
+
+        Rigidbody2D rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
+
+        Invoke("Think", 2);
+    }
+
+    void Think()
+    {
+        patternIndex = patternIndex == 3 ? 0 : patternIndex + 1;
+
+        switch(patternIndex)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
 
     void Update()
     {
+        if (EnemyName == "B")
+            return;
         Fire();
         Reload();
         
@@ -48,7 +99,9 @@ public class Enemy : MonoBehaviour
         //적의 공격
         if (EnemyName == "Slime") //슬라임 공격
         {
-            GameObject Attack1 = Instantiate(EnemyAttack1, transform.position + Vector3.up * 0.4f, transform.rotation);
+            GameObject Attack1 = objectManager.MakeObj("EnemyAttack1");
+            Attack1.transform.position = transform.position + Vector3.up * 0.4f;
+            
             Rigidbody2D rigid1 = Attack1.GetComponent<Rigidbody2D>();
             Vector3 dirVec = player.transform.position - transform.position;
 
@@ -57,7 +110,9 @@ public class Enemy : MonoBehaviour
         }
         else if (EnemyName == "Golem") //골렘 공격
         {
-            GameObject Attack2 = Instantiate(EnemyAttack2, transform.position + Vector3.up * 0.4f, transform.rotation);
+            GameObject Attack2 = objectManager.MakeObj("EnemyAttack2");
+            Attack2.transform.position = transform.position + Vector3.up * 0.4f;
+            
             Rigidbody2D rigid2 = Attack2.GetComponent<Rigidbody2D>();
             Vector3 dirVec = player.transform.position - transform.position;
 
@@ -79,7 +134,15 @@ public class Enemy : MonoBehaviour
         
 
         health -= dmg;
-        
+        if(EnemyName == "B")
+        {
+            anim.SetTrigger("OnHit");
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[1];
+            Invoke("ReturnSprite", 0.1f);
+        }
 
         if (health <= 0)
         {
@@ -87,19 +150,22 @@ public class Enemy : MonoBehaviour
             playerLogic.score += enemyScore;
 
 
-            int ran = Random.Range(0, 10);
+            int ran = EnemyName == "B" ? 0 : Random.Range(0, 10);
             if (ran < 8) 
             {
                 Debug.Log("Not Item");
             }
             else if (ran < 10)
             {
-                Instantiate(powerup, transform.position, powerup.transform.rotation);
+                GameObject powerup = objectManager.MakeObj("Powerup");
+                powerup.transform.position = transform.position;
+                
             }
 
-            
 
-            Destroy(gameObject);
+
+            gameObject.SetActive(false);
+            transform.rotation = Quaternion.identity;
 
            
             
@@ -119,13 +185,20 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)      //적이 공격 받앗을때 및 맵 끝까지 갔을 때
     {
-        if (collision.gameObject.tag == "BorderAttack")
-            Destroy(gameObject);
-        else if (collision.gameObject.tag == "playerattack"){
+        if (collision.gameObject.tag == "BorderAttack" && EnemyName != "B")
+        {
+            gameObject.SetActive(false);
+            transform.rotation = Quaternion.identity;
+        }
+
+
+
+        else if (collision.gameObject.tag == "playerattack")
+        {
             Attack attack = collision.gameObject.GetComponent<Attack>();
             OnHit(attack.dmg);
 
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             //dfd
 
         }

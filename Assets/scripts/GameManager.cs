@@ -3,29 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 public class GameManager : MonoBehaviour
 {
-    public GameObject[] enemyobjs;
+    public string[] enemyobjs;
     public Transform[] spawnPoints;
 
-    public float maxSpawnDelay;
+    public float nextSpawnDelay;
     public float curSpawnDelay;
 
     public GameObject player;
     public Text scoreText;
     public Image[] lifeImage;
     public GameObject gameOverSet;
+    public ObjectManager objectManager;
+
+    public List<Spawn> spawnList;
+    public int spawnIndex;
+    public bool spawnEnd;
+
+    void Awake()
+    {
+        spawnList = new List<Spawn>();
+        enemyobjs = new string[] { "Slimeenemy", "Golemenemy", "EnemyB" };
+        ReadSpawnFile();
+    }
 
 
 
+
+    void ReadSpawnFile()
+    {
+        spawnList.Clear();
+        spawnIndex = 0;
+        spawnEnd = false;
+
+        TextAsset textFile = Resources.Load("Stage 1") as TextAsset;
+        StringReader stringReader = new StringReader(textFile.text);
+
+        while (stringReader != null)
+        {
+            string line = stringReader.ReadLine();
+         
+            if (line == null)
+                break;
+
+
+            Spawn spawnData = new Spawn();
+            spawnData.delay = float.Parse(line.Split(',')[0]);
+            spawnData.type = line.Split(',')[1];
+            spawnData.point = int.Parse(line.Split(',')[2]);
+            spawnList.Add(spawnData);
+        }
+
+        stringReader.Close();
+        nextSpawnDelay = spawnList[0].delay;
+    }
     void Update()
     {
         curSpawnDelay += Time.deltaTime;
 
-        if (curSpawnDelay > maxSpawnDelay)   //적 스폰 딜레이
+        if (curSpawnDelay > nextSpawnDelay && !spawnEnd)   //적 스폰 딜레이
         {
             SpawnEnemy();
-            maxSpawnDelay = Random.Range(0.5f, 3f);  //x초부터 y초 사이의 랜덤값으로 몹 생성주기 결정
             curSpawnDelay = 0;
         }
 
@@ -38,24 +78,38 @@ public class GameManager : MonoBehaviour
     }
     void SpawnEnemy()    //적 소환 로직
     {
-        int ranEnemy = Random.Range(0, 2);   //적 종류
-        int ranPoint = Random.Range(0, 9);   //적 생성 위치
-        GameObject enemy = Instantiate(enemyobjs[ranEnemy],
-                                       spawnPoints[ranPoint].position,
-                                       spawnPoints[ranPoint].rotation);
+        int enemyIndex = 0;
+        switch (spawnList[spawnIndex].type)
+        {
+            case "Slime":
+                enemyIndex = 0;
+                break;
+            case "Golem":
+                enemyIndex = 1;
+                break;
+                case "B":
+                enemyIndex = 2;
+                break;
+        }
+        int enemyPoint = spawnList[spawnIndex].point;
+
+        GameObject enemy = objectManager.MakeObj(enemyobjs[enemyIndex]);
+        enemy.transform.position = spawnPoints[enemyPoint].position;
+                                         
         Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
         Enemy enemyLogic = enemy.GetComponent<Enemy>();
         enemyLogic.player = player;
+        enemyLogic.objectManager = objectManager;
 
 
-        if (ranPoint == 5 || ranPoint == 6)
+        if (enemyPoint == 5 || enemyPoint == 6)
         {
             //enemy.transform.Rotate(Vector3.back * 30);           
             //적 유닛 방향 조절(사용x)
             rigid.velocity = new Vector2(enemyLogic.speed * (-1), -1); // 왼쪽 적의 이동
 
         }
-        else if (ranPoint == 7 || ranPoint == 8)
+        else if (enemyPoint == 7 || enemyPoint == 8)
         {
             //enemy.transform.Rotate(Vector3.forward * 30);        
             //적 유닛 방향 조절(사용x)
@@ -68,6 +122,16 @@ public class GameManager : MonoBehaviour
             rigid.velocity = new Vector2(0, enemyLogic.speed * (-1));              // 중앙 적의 이동
 
         }
+
+        //# 리스폰 인덱스 증가
+        spawnIndex++;
+        if(spawnIndex == spawnList.Count)
+        {
+            spawnEnd = true;
+            return;
+        }
+        //# 다음 리스폰 딜레이
+        nextSpawnDelay = spawnList[spawnIndex].delay;
     }
 
     public void UpdateLifeIcon(int life)

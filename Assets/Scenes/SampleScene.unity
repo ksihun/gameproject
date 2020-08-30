@@ -264,7 +264,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &126355509
 GameObject:
@@ -417,7 +417,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1285802012}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1213,8 +1214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyobjs:
-  - {fileID: 3462179213932149442, guid: 7832be7ca2ea48d47aa7cab2d3340346, type: 3}
-  - {fileID: 1412010768579242960, guid: 6ce1a96e46a186c4ea2aa5a0f97f2c2c, type: 3}
+  - 
+  - 
   spawnPoints:
   - {fileID: 1348670886}
   - {fileID: 850306680}
@@ -1234,6 +1235,7 @@ MonoBehaviour:
   - {fileID: 1584034167}
   - {fileID: 126355511}
   gameOverSet: {fileID: 2104703956}
+  objectManager: {fileID: 1929950304}
 --- !u!4 &848380402
 Transform:
   m_ObjectHideFlags: 0
@@ -1647,8 +1649,8 @@ RectTransform:
   - {fileID: 126355510}
   - {fileID: 1919618489}
   - {fileID: 2104703957}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 186695114}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2195,6 +2197,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920453151}
   m_CullTransparentMesh: 0
+--- !u!1 &1929950303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1929950305}
+  - component: {fileID: 1929950304}
+  m_Layer: 0
+  m_Name: ObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1929950304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929950303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6740cdc2ea4b86948a789902c5389424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBPrefab: {fileID: 6524776634755234376, guid: ade7f26fa4f03b84ca5be9042158723c,
+    type: 3}
+  slimeenemyPrefab: {fileID: 1412010768579242960, guid: 6ce1a96e46a186c4ea2aa5a0f97f2c2c,
+    type: 3}
+  golemenemyPrefab: {fileID: 3462179213932149442, guid: 7832be7ca2ea48d47aa7cab2d3340346,
+    type: 3}
+  powerupPrefab: {fileID: 8652612126803478600, guid: e98cb73c4e0e78e4495a34f012bfdac7,
+    type: 3}
+  playerattack1Prefab: {fileID: 3703105347562294592, guid: 308cf4278539eb6418d138568ca5331a,
+    type: 3}
+  playerattack2Prefab: {fileID: 3703105347562294592, guid: 94220d6e63d9bfd4c97d8721abbbfba4,
+    type: 3}
+  playerattack3Prefab: {fileID: 3703105347562294592, guid: 488ea295dcf41214d86ae68d488c46ab,
+    type: 3}
+  EnemyAttack1Prefab: {fileID: 3703105347562294592, guid: 256cda0628f311a4b87e3a07f81fbf7c,
+    type: 3}
+  EnemyAttack2Prefab: {fileID: 3703105347562294592, guid: 631a6f5248570de40ab9ccf973b9f4b8,
+    type: 3}
+  bulletBossAPrefab: {fileID: 3703105347562294592, guid: 0cf603a078bf5a0469e29bc55da582e1,
+    type: 3}
+  bulletBossBPrefab: {fileID: 3703105347562294592, guid: 2fd0f45a62b6abd42a6f90935d7adac4,
+    type: 3}
+--- !u!4 &1929950305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929950303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4151783, y: -0.7047837, z: -4.0551896}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1973040097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,7 +2312,8 @@ MonoBehaviour:
     type: 3}
   playerattack3: {fileID: 3703105347562294592, guid: 488ea295dcf41214d86ae68d488c46ab,
     type: 3}
-  manager: {fileID: 848380401}
+  gameManager: {fileID: 848380401}
+  objectManager: {fileID: 1929950304}
   isHit: 0
 --- !u!212 &1973040099
 SpriteRenderer:

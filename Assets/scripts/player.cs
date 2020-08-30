@@ -25,7 +25,8 @@ public class player : MonoBehaviour
     Animator anim;
 
 
-    public GameManager manager;
+    public GameManager gameManager;
+    public ObjectManager objectManager; 
 
 
     public bool isHit;
@@ -71,18 +72,21 @@ public class player : MonoBehaviour
         switch (power)
         {
             case 1:
-                GameObject Attack1 = Instantiate(playerattack1, transform.position+Vector3.up*0.4f, transform.rotation);
+                GameObject Attack1 = objectManager.MakeObj("Playerattack1");
+                Attack1.transform.position = transform.position + Vector3.up * 0.4f;
                 Rigidbody2D rigid1 = Attack1.GetComponent<Rigidbody2D>();
                 rigid1.AddForce(Vector2.up * 15, ForceMode2D.Impulse);
                 break;
             case 2:
-                GameObject Attack2 = Instantiate(playerattack2, transform.position + Vector3.up * 0.4f, transform.rotation);
+                GameObject Attack2 = objectManager.MakeObj("Playerattack2");
+                Attack2.transform.position = transform.position + Vector3.up * 0.4f;
                 Rigidbody2D rigid2 = Attack2.GetComponent<Rigidbody2D>();
                 rigid2.AddForce(Vector2.up * 15, ForceMode2D.Impulse);
 
                 break;
             case 3:
-                GameObject Attack3 = Instantiate(playerattack3, transform.position + Vector3.up * 0.4f, transform.rotation);
+                GameObject Attack3 = objectManager.MakeObj("Playerattack3");
+                Attack3.transform.position = transform.position + Vector3.up * 0.4f;
                 Rigidbody2D rigid3 = Attack3.GetComponent<Rigidbody2D>();
                 rigid3.AddForce(Vector2.up * 15, ForceMode2D.Impulse);
 
@@ -132,33 +136,36 @@ public class player : MonoBehaviour
 
             isHit = true;
             life--;
-            manager.UpdateLifeIcon(life);
-            
-            if(life == 0)
+            gameManager.UpdateLifeIcon(life);
+
+            if (life == 0)
             {
-                manager.GameOver();
+                gameManager.GameOver();
             }
             else
             {
-                manager.RespawnPlayer();
+                gameManager.RespawnPlayer();
             }
-            manager.RespawnPlayer();
+            gameManager.RespawnPlayer();
             gameObject.SetActive(false);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
-        else if(collision.gameObject.tag == "Item") {
+
+        else if (collision.gameObject.tag == "Item")
+        {
             Item item = collision.gameObject.GetComponent<Item>();
-            switch (item.type) {
+            switch (item.type)
+            {
                 case "Power":
                     if (power == maxpower)
-                    
+
                         score += 500;
-                    
+
                     else
                         power++;
                     break;
             }
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
     }
     void OnTriggerExit2D(Collider2D collision)  
