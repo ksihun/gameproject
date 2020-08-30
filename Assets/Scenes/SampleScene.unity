@@ -1226,7 +1226,7 @@ MonoBehaviour:
   - {fileID: 227514039}
   - {fileID: 798939296}
   - {fileID: 1647631239}
-  maxSpawnDelay: 2
+  nextSpawnDelay: 0
   curSpawnDelay: 0
   player: {fileID: 1973040097}
   scoreText: {fileID: 1919618490}
@@ -1236,6 +1236,8 @@ MonoBehaviour:
   - {fileID: 126355511}
   gameOverSet: {fileID: 2104703956}
   objectManager: {fileID: 1929950304}
+  spawnIndex: 0
+  spawnEnd: 0
 --- !u!4 &848380402
 Transform:
   m_ObjectHideFlags: 0
@@ -2295,7 +2297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c49deeece95c64ea775a614f2528ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 1
+  power: 3
   maxpower: 3
   speed: 5
   maxShotDelay: 0.25
